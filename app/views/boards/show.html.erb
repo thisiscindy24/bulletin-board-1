@@ -35,10 +35,10 @@
 
 
     </form>
-
-    <h2>Active Posts </h2>
     <% matching_posts = Post.where({:board_id => @the_board.id}).order({:expires_on=> :asc})%>
+    <h2>Active Posts </h2>
     <table border="1">
+    
       <tr>
         <th>Title</th>
         <th>Body</th>
@@ -46,14 +46,35 @@
         <th>Expires on</th>
       </tr>
 
-    <% matching_posts.each do |a_post|%>
-     <tr>
-        <td><%= a_post.title%></td>
-        <td><%= a_post.body%></td>
-        <td><%= a_post.created_at.strftime("%b %e, %Y")%>n</td>
-        <td><%= a_post.expires_on.strftime("%b %e, %Y")%></td>
+      <% active_posts = matching_posts.select { |post| post.expires_on >= Date.today } %>
+      <% active_posts.each do |a_post| %>
+        <tr>
+            <td><%= a_post.title%></td>
+            <td><%= a_post.body%></td>
+            <td><%= a_post.created_at.strftime("%b %e, %Y")%>n</td>
+            <td><%= a_post.expires_on.strftime("%b %e, %Y")%></td>
+          </tr>
+      <% end %>
+    </table>
+    
+    <h2>Expired Posts</h2>
+    <table border="1">
+      <tr>
+        <th>Title</th>
+        <th>Body</th>
+        <th>Posted on</th>
+        <th>Expired on</th>
       </tr>
-    <% end %>
+
+      <% expired_posts = matching_posts.select { |post| post.expires_on < Date.today } %>
+      <% expired_posts.each do |a_post| %>
+        <tr>
+          <td><%= a_post.title %></td>
+          <td><%= a_post.body %></td>
+          <td><%= a_post.created_at.strftime("%b %e, %Y") %></td>
+          <td><%= a_post.expires_on.strftime("%b %e, %Y") %></td>
+        </tr>
+      <% end %>
     </table>
 
   

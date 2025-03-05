@@ -13,13 +13,11 @@
   <body>
     <a href="/">Bulletin Board</a>
     <hr> 
-    <%= yield %>
+    
     <!-- ... -->
 
   <% if notice.present? %>
-    <div>
-      <%= notice %>
-    </div>
+    <div><%= notice %></div>
   <% end %>
 
   <% if alert.present? %>
@@ -29,5 +27,6 @@
   <% end %>
 
   <!-- ... -->
+  <%= yield %>
   </body>
 </html>

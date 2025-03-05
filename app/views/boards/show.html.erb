@@ -25,10 +25,9 @@
         <input id="expires_on_field" type = "date" name="query_expires_on">
       </div>
 
-       <div>
-        <label for="board_id_field">Board ID</label>
-        <input id="board_id_field" type = "text" name="query_board_id">
-      </div>
+      
+      <input type="hidden" id="board_id_field" type = "text" name="query_board_id" value="<%=@the_board.id%>">
+      
 
       <button>
         Add post
@@ -38,8 +37,8 @@
     </form>
 
     <h2>Active Posts </h2>
-    <% matching_posts = Post.where({:board_id => @the_board.id})%>
-    <table>
+    <% matching_posts = Post.where({:board_id => @the_board.id}).order({:expires_on=> :asc})%>
+    <table border="1">
       <tr>
         <th>Title</th>
         <th>Body</th>
@@ -51,8 +50,8 @@
      <tr>
         <td><%= a_post.title%></td>
         <td><%= a_post.body%></td>
-        <td><%= a_post.created_at%>n</td>
-        <td><%= a_post.expires_on%></td>
+        <td><%= a_post.created_at.strftime("%b %e, %Y")%>n</td>
+        <td><%= a_post.expires_on.strftime("%b %e, %Y")%></td>
       </tr>
     <% end %>
     </table>
